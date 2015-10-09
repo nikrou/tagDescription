@@ -1,0 +1,49 @@
+# Language: Français
+# Module: tagDescription - 0.2.0
+# Date: 2015-10-09 09:18:51
+msgid ""
+msgstr ""
+"Project-Id-Version: tagDescription 0.2.0\n"
+"Report-Msgid-Bugs-To: nikrou77+l10n@gmail.com\n"
+"POT-Creation-Date: 2015-10-09 09:36+0200\n"
+"PO-Revision-Date: 2015-10-09 09:05+0200\n"
+"Last-Translator: Nicolas <nikrou77@gmail.com>\n"
+"Language-Team: Nicolas <nikrou77@gmail.com>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "Enable Tag Description plugin"
+msgstr "Activer le plugin Tag Description"
+
+msgid "Add description for tags"
+msgstr "Ajouter une description aux mots-clés"
+
+msgid "Plugin activation"
+msgstr "Activation du plugin"
+
+msgid "Tag Description"
+msgstr "Description du mot-clé"
+
+msgid "Tags Description"
+msgstr "Description des mots-clés"
+
+msgid "The tag description has been updated."
+msgstr "La description du mot-clé a été mise à jour."
+
+msgid "Update description"
+msgstr "Mise à jour de la description"
+
+msgid "Update tag on the original page"
+msgstr "Mettez à jour le mot-clé sur la page originale"
+
+msgid "No tag"
+msgstr "Aucun mot-clé"
+
+#, php-format
+msgid "one tag in database"
+msgid_plural "%d tags in database"
+msgstr[0] "un mot-clé dans la base de données"
+msgstr[1] "%d mots-clés dans la base de données"

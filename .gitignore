@@ -1,0 +1,4 @@
+/.dist
+/target
+/Makefile
+/rsync_exclude
