@@ -22,9 +22,16 @@
 class tagDescriptionTpl
 {
     public static function TagDescription($attr) {
+		$content_only = !empty($attr['content_only']) ? 1 : 0;
+
 		$f = $GLOBALS['core']->tpl->getFilters($attr);
 
-		return '<?php echo '.sprintf($f,'$_ctx->tag_manager->findById($_ctx->meta->meta_id)->meta_desc').'; ?>';
+        $res = "<?php\n echo ".sprintf($f,'$_ctx->tag_manager->findById($_ctx->meta->meta_id)->meta_desc').'; ?>';
+        if (!$content_only) {
+            $res = '<div class="tagDescription">'.$res.'</div>';
+        }
+
+        return $res;
     }
 
     public static function breadcrumb($elements=null,$options=array()) {

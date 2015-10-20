@@ -22,7 +22,7 @@
 if (!defined('DC_CONTEXT_ADMIN')) { return; }
 
 $_menu['Blog']->addItem(
-    __('Tag Description'),
+    __('Tags Description'),
     'plugin.php?p=tagDescription',
     'index.php?pf=tagDescription/icon.png',
     preg_match('/plugin.php\?p=tagDescription/', $_SERVER['REQUEST_URI']),
