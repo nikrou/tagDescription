@@ -25,7 +25,7 @@ $this->registerModule(
 	/* Name */				"tagDescription",
 	/* Description*/		"Add description for tags",
 	/* Author */			"Nicolas Roudaire",
-	/* Version */			'0.4.0',
+	/* Version */			'0.4.1',
 	array(
 		'permissions' =>	'contentadmin',
 		'type' => 'plugin',

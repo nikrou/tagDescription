@@ -1,3 +1,7 @@
+tagDescription 0.4.1 - 2015-10-21
+=================================
+* Missing locales directory in archive
+
 tagDescription 0.4.0 - 2015-10-20
 =================================
 * Add div around description on public side.
