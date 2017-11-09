@@ -2,7 +2,7 @@
 // +-----------------------------------------------------------------------+
 // | tagDescription - a plugin for dotclear                                |
 // +-----------------------------------------------------------------------+
-// | Copyright(C) 2013-2015 Nicolas Roudaire        http://www.nikrou.net  |
+// | Copyright(C) 2013-2017 Nicolas Roudaire       https://www.nikrou.net  |
 // +-----------------------------------------------------------------------+
 // | This program is free software; you can redistribute it and/or modify  |
 // | it under the terms of the GNU General Public License version 2 as     |
@@ -40,6 +40,7 @@ class tagDescriptionAdminList extends adminGenericList
             '<tr>'.
             '<th>'. __('Tag').'</th>'.
             '<th>'.__('Description').'</th>'.
+            '<th>'.__('Title').'</th>'.
             '</tr>'.
             '</thead>'.
             '<tbody>%s</tbody></table>'.
@@ -72,7 +73,8 @@ class tagDescriptionAdminList extends adminGenericList
             html::escapeHTML(text::cutString($this->rs->meta_id, 50)).
             '</a>'.
             '</td>'.
-            '<td class="nowrap">'.html::escapeHTML(text::cutString($this->rs->meta_desc, 50)).'</td>'.
+            '<td class="nowrap">'.html::escapeHTML(text::cutString($this->rs->tag_desc, 50)).'</td>'.
+            '<td class="nowrap">'.html::escapeHTML(text::cutString($this->rs->tag_title, 50)).'</td>'.
             '</tr>';
 
         return $res;

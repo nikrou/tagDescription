@@ -2,7 +2,7 @@
 // +-----------------------------------------------------------------------+
 // | tagDescription - a plugin for dotclear                                |
 // +-----------------------------------------------------------------------+
-// | Copyright(C) 2013-2015 Nicolas Roudaire        http://www.nikrou.net  |
+// | Copyright(C) 2013-2017 Nicolas Roudaire       https://www.nikrou.net  |
 // +-----------------------------------------------------------------------+
 // | This program is free software; you can redistribute it and/or modify  |
 // | it under the terms of the GNU General Public License version 2 as     |
@@ -26,9 +26,24 @@ class tagDescriptionTpl
 
 		$f = $GLOBALS['core']->tpl->getFilters($attr);
 
-        $res = "<?php\n echo ".sprintf($f,'$_ctx->tag_manager->findById($_ctx->meta->meta_id)->meta_desc').'; ?>';
+        $res = "<?php\n echo ".sprintf($f,'$_ctx->tag_manager->findById($_ctx->meta->meta_id)->tag_desc').'; ?>';
         if (!$content_only) {
             $res = '<div class="tagDescription">'.$res.'</div>';
+        }
+
+        return $res;
+    }
+
+    public static function TagTitle($attr) {
+		$content_only = !empty($attr['content_only']) ? 1 : 0;
+
+		$f = $GLOBALS['core']->tpl->getFilters($attr);
+
+        $res = "<?php\n";
+        $res .= '$tag = $_ctx->tag_manager->findById($_ctx->meta->meta_id);'."\n";
+        $res .= 'echo '.sprintf($f,'$tag->tag_title?$tag->tag_title:$tag->tag_id').'; ?>';
+        if (!$content_only) {
+            $res = '<div class="tagTitle">'.$res.'</div>';
         }
 
         return $res;

@@ -30,8 +30,8 @@ msgstr "Description du mot-clé"
 msgid "Tags Description"
 msgstr "Description des mots-clés"
 
-msgid "The tag description has been updated."
-msgstr "La description du mot-clé a été mise à jour."
+msgid "The tag metadatas have been updated."
+msgstr "Les métadonnées du mot-clé ont été mises à jour."
 
 msgid "Update description"
 msgstr "Mise à jour de la description"

@@ -2,7 +2,7 @@
 // +-----------------------------------------------------------------------+
 // | tagDescription - a plugin for dotclear                                |
 // +-----------------------------------------------------------------------+
-// | Copyright(C) 2013-2015 Nicolas Roudaire        http://www.nikrou.net  |
+// | Copyright(C) 2013-2017 Nicolas Roudaire       https://www.nikrou.net  |
 // +-----------------------------------------------------------------------+
 // | This program is free software; you can redistribute it and/or modify  |
 // | it under the terms of the GNU General Public License version 2 as     |
@@ -21,31 +21,36 @@
 
 class tagManager
 {
-    private $fields = array('meta_id', 'meta_type', 'post_id', 'meta_desc');
-    private $required_fields = array('meta_id', 'meta_type', 'post_id');
+    private $fields = array('tag_id', 'tag_desc', 'tag_title');
 
     public function __construct($core) {
         $this->core = $core;
         $this->blog = $core->blog;
         $this->con = $this->blog->con;
-        $this->table = $this->blog->prefix.'meta';
+        $this->table = $this->blog->prefix.'tagdescription';
+        $this->foreign_table = $this->blog->prefix.'meta';
     }
 
     public function openCursor() {
         return $this->con->openCursor($this->table);
     }
 
+    public function add($cur) {
+        $cur->insert();
+    }
+
     public function update($id, $cur) {
-        $cur->update('WHERE meta_id = \''.$this->con->escape($id).'\' AND meta_type=\'tag\'');
+        $cur->update('WHERE tag_id = \''.$this->con->escape($id).'\'');
 
         return $cur;
     }
 
     public function findById($id) {
-        $strReq =  'SELECT '.implode(',', $this->fields);
-        $strReq .= ' FROM '.$this->table;
+        $strReq =  'SELECT distinct(meta_id), tag_id, tag_desc, tag_title';
+        $strReq .= ' FROM '.$this->foreign_table.' AS m';
+        $strReq .= ' LEFT JOIN '.$this->table.' AS td ON td.tag_id=m.meta_id';
         $strReq .= ' WHERE meta_id=\''.$this->con->escape($id).'\'';
-        $strReq .= ' AND meta_type=\'tag\'';
+        $strReq .= ' AND m.meta_type=\'tag\'';
 
         $rs = $this->con->select($strReq);
         $rs = $rs->toStatic();
@@ -54,10 +59,11 @@ class tagManager
     }
 
     public function getList(array $limit=array()) {
-        $strReq =  'SELECT distinct(meta_id), meta_desc';
-        $strReq .= ' FROM '.$this->table;
-        $strReq .= ' WHERE meta_type=\'tag\'';
-        $strReq .= ' ORDER BY meta_id ASC';
+        $strReq =  'SELECT distinct(meta_id), tag_desc, tag_title';
+        $strReq .= ' FROM '.$this->foreign_table.' AS m';
+        $strReq .= ' LEFT JOIN '.$this->table.' AS td ON td.tag_id=m.meta_id';
+        $strReq .= ' WHERE m.meta_type=\'tag\'';
+        $strReq .= ' ORDER BY tag_id ASC';
 
         if (!empty($limit)) {
 			$strReq .= $this->con->limit($limit);
@@ -70,9 +76,10 @@ class tagManager
     }
 
     public function getcountList() {
-        $strReq =  'SELECT count(distinct(meta_id))';
-        $strReq .= ' FROM '.$this->table;
-        $strReq .= ' WHERE meta_type=\'tag\'';
+        $strReq =  'SELECT count(meta_id)';
+        $strReq .= ' FROM '.$this->foreign_table.' AS m';
+        $strReq .= ' LEFT JOIN '.$this->table.' AS td ON td.tag_id=m.meta_id';
+        $strReq .= ' WHERE m.meta_type=\'tag\'';
 
         $rs = $this->con->select($strReq);
         $rs = $rs->toStatic();
@@ -82,19 +89,24 @@ class tagManager
 
     public function getAll() {
         $strReq =  'SELECT '.implode(',', $this->fields);
-        $strReq .= ' FROM '.$this->table;
-        $strReq .= ' WHERE meta_type=\'tag\'';
+        $strReq .= ' FROM '.$this->table.' AS td';
+        $strReq .= ' LEFT JOIN '.$this->foreign_table.' AS m ON td.tag_id=m.meta_id';
+        $strReq .= ' WHERE m.meta_type=\'tag\'';
+        $strReq .= ' GROUP BY m.post_id';
 
         if (!empty($limit)) {
 			$strReq .= $this->con->limit($limit);
         }
 
         $rs = $this->con->select($strReq);
-        $descriptions = array();
+        $results = array();
         while ($rs->fetch()) {
-            $descriptions[$rs->meta_id] = $rs->meta_desc;
+            $results[$rs->tag_id] = array(
+                'description' => $rs->tag_desc,
+                'title' => $rs->tag_title ? $rs->tag_title : $rs->tag_id
+            );
         }
 
-        return $descriptions;
+        return $returndescriptions;
     }
 }

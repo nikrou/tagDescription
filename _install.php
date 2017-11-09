@@ -2,7 +2,7 @@
 // +-----------------------------------------------------------------------+
 // | tagDescription - a plugin for dotclear                                |
 // +-----------------------------------------------------------------------+
-// | Copyright(C) 2013-2015 Nicolas Roudaire        http://www.nikrou.net  |
+// | Copyright(C) 2013-2017 Nicolas Roudaire       https://www.nikrou.net  |
 // +-----------------------------------------------------------------------+
 // | This program is free software; you can redistribute it and/or modify  |
 // | it under the terms of the GNU General Public License version 2 as     |
@@ -29,7 +29,12 @@ $settings->addNamespace('tagdescription');
 $settings->tagdescription->put('active', false, 'boolean', 'Tag Description plugin activated ?', false);
 
 $s = new dbStruct($core->con, $core->prefix);
-$s->meta->meta_desc('text', 0, true);
+$s->tagdescription
+    ->tag_id('varchar', 191, false)
+    ->tag_desc('text', 0, true)
+    ->tag_title('varchar', 255, false)
+    ->primary('pk_tagdescription_tag_id', 'tag_id')
+    ->reference('fk_tagdescription_meta', 'tag_id', 'meta', 'meta_id', 'cascade', 'cascade');
 
 $si = new dbStruct($core->con, $core->prefix);
 $changes = $si->synchronize($s);

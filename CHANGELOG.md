@@ -1,3 +1,7 @@
+tagDescription 0.5.x - 2017-11-xx
+=================================
+* Add title for tags in a separate table
+
 tagDescription 0.4.1 - 2015-10-21
 =================================
 * Missing locales directory in archive

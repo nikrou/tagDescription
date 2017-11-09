@@ -75,7 +75,7 @@ msgid "The configuration has been updated."
 msgstr ""
 
 #: inc/tag_controller.php:47
-msgid "The tag has been updated."
+msgid "The tag metadatas have been updated."
 msgstr ""
 
 #: tpl/form_tag.tpl:10 tpl/form_tag.tpl:10

@@ -2,7 +2,7 @@
 // +-----------------------------------------------------------------------+
 // | tagDescription - a plugin for dotclear                                |
 // +-----------------------------------------------------------------------+
-// | Copyright(C) 2013-2015 Nicolas Roudaire        http://www.nikrou.net  |
+// | Copyright(C) 2013-2017 Nicolas Roudaire       https://www.nikrou.net  |
 // +-----------------------------------------------------------------------+
 // | This program is free software; you can redistribute it and/or modify  |
 // | it under the terms of the GNU General Public License version 2 as     |
@@ -21,32 +21,35 @@
 
 if (!defined('DC_CONTEXT_ADMIN')) { exit; }
 
-$tag = array('meta_id' => '', 'meta_desc' => '');
+$tag = array('id' => '', 'desc' => '', 'title' => '');
 $tag_manager = new tagManager($core);
 
-if ($_REQUEST['action']=='edit' && !empty($_GET['id'])) {
-    $rs = $tag_manager->findById($_GET['id']);
+if ($_REQUEST['action']=='edit' && !empty($_REQUEST['tag_id'])) {
+    $rs = $tag_manager->findById($_REQUEST['tag_id']);
     if (!$rs->isEmpty()) {
-        $tag['meta_id'] = $rs->meta_id;
-        $tag['meta_desc'] = $rs->meta_desc;
-        $_SESSION['meta_id'] = $_GET['id'];
+        $tag['id'] = $rs->meta_id;
+        $tag['desc'] = $rs->tag_desc;
+        $tag['title'] = $rs->tag_title;
     }
 }
 
 if (!empty($_POST['save_tag'])) {
     // save current values
-    $tag['meta_id'] = $_POST['tag_meta_id'];
-    $tag['meta_desc'] = (string) $_POST['tag_meta_desc'];
+    $tag['title'] = (string) $_POST['tag_title'];
+    $tag['desc'] = (string) $_POST['tag_desc'];
 
     $cur = $tag_manager->openCursor();
-    $cur->meta_desc = (string) $_POST['tag_meta_desc'];
+    $cur->tag_id = $tag['id'];
+    $cur->tag_desc = $tag['desc'];
+    $cur->tag_title = $tag['title'];
 
     try {
-        if ($action=='edit') {
-            $tag_manager->update($_SESSION['meta_id'], $cur);
-            $message = __('The tag description has been updated.');
-            unset($_SESSION['meta_id']);
+        if (!$rs->isEmpty() && $rs->tag_id) {
+            $tag_manager->update($tag['id'], $cur);
+        } else {
+            $tag_manager->add($cur);
         }
+        $message = __('The tag metadatas have been updated.');
         $_SESSION['tag_description_message'] = $message;
         $_SESSION['tag_description_default_tab'] = 'descriptions';
         http::redirect($p_url);

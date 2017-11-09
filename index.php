@@ -69,7 +69,7 @@ if (!empty($_REQUEST['object']) && $_REQUEST['object']=='tag') {
         $tags_counter = $tag_manager->getCountList();
 
         $tags_list = new tagDescriptionAdminList($core, $tag_manager->getList($limit_tags), $tags_counter);
-        $tags_list->setPluginUrl("$p_url&amp;object=tag&amp;action=edit&amp;id=%s");
+        $tags_list->setPluginUrl("$p_url&amp;object=tag&amp;action=edit&amp;tag_id=%s");
     } catch (Exception $e) {
         $core->error->add($e->getMessage());
     }
